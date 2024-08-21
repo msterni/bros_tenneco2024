@@ -21,8 +21,8 @@ namespace SiemensToBRIOIntegration
             _ip = ip;
 
             //_siemens = new SiemensWrapper(ip, 0, 1); // 192.168.0.1
-            _siemens = siemens;
             _webcam = new WebCamWrapper();
+            _siemens = siemens;
 
             _timer = new System.Timers.Timer()
             {
