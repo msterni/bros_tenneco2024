@@ -26,7 +26,7 @@ namespace SiemensToBRIOIntegration
     // phototaken 274 
     // liveBit 270.0
     // error 270.1 
-    public class SiemensWrapper : IDisposable
+    public class SiemensWrapper : IDisposable, ISiemensWrapper
     {
         public ulong Reads { get; set; } //= 0;
         public ulong Writes { get; set; }  // = 0;
@@ -99,6 +99,7 @@ namespace SiemensToBRIOIntegration
 
         public void WriteLiveBit(bool liveBit, bool error)
         {
+            var lifeBit = 0;
             try
             {
                 if (Monitor.TryEnter(SyncObject, 3000))
@@ -108,7 +109,7 @@ namespace SiemensToBRIOIntegration
                         var writeBuffer = new byte[2];
                         S7.SetBitAt(ref writeBuffer, 0, 0, liveBit);
                         S7.SetBitAt(ref writeBuffer, 0, 1, error);
-                        int writeResult = Client.DBWrite(5, 270, writeBuffer.Length, writeBuffer);
+                        int writeResult = Client.DBWrite(57, lifeBit, writeBuffer.Length, writeBuffer);
                         Writes++;
                         if (writeResult != 0)
                         {
@@ -132,19 +133,6 @@ namespace SiemensToBRIOIntegration
                 {
                     _log.Error("Monitor didnt receive lock in WriteLiveBit");
                 }
-                //Monitor.Enter(SyncObject);
-                //var writeBuffer = new byte[2];
-                //S7.SetBitAt(ref writeBuffer, 0, 0, liveBit);
-                //S7.SetBitAt(ref writeBuffer, 0, 1, error);
-                //int writeResult = Client.DBWrite(5, 270, writeBuffer.Length, writeBuffer);
-                //Monitor.Exit(SyncObject);
-                //Writes++;
-                //if (writeResult != 0)
-                //{
-                //    Console.WriteLine("Write error: " + writeResult);
-                //    Client.Disconnect();
-                //    return;
-                //}
             }
             catch (Exception ex)
             {

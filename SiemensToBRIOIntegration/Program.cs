@@ -9,7 +9,7 @@ namespace SiemensToBRIOIntegration
         {
             var ip = "192.168.0.1"; //ConfigurationManager.AppSettings["ip"];
             var sw = new SiemensWrapper(ip, 0, 1); // 192.168.0.1
-            new Core(sw as ISiemensWrapper, ip).Run();
+            new Core(sw, ip).Run();
             manualResetEvent.WaitOne();
         }
     }
