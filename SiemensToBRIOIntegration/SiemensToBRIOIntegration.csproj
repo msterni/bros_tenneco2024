@@ -66,11 +66,12 @@
     <Compile Include="Core.cs" />
     <Compile Include="IniFile.cs" />
     <Compile Include="ISiemensWrapper.cs" />
-    <Compile Include="MockWrapper.cs" />
+    <Compile Include="PlcConnector.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sharp7.cs" />
     <Compile Include="SiemensWrapper.cs" />
+    <Compile Include="ValuesProcessor.cs" />
     <Compile Include="WebCamWrapper.cs" />
   </ItemGroup>
   <ItemGroup>

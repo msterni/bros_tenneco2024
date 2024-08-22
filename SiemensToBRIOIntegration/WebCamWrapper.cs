@@ -44,7 +44,7 @@ namespace SiemensToBRIOIntegration
         bool writeToDisk = false;
         string lastTrayName = ""; // nie zrobi zapisu 2x dla takiej samej tacki
         VideoCaptureDevice videoSource;
-        private string _storagePath = "c://Pictures";
+        private string _storagePath;
 
         public void ShootPhoto(string trayName)
         {
@@ -58,8 +58,9 @@ namespace SiemensToBRIOIntegration
             writeToDisk = true;
         }
 
-        public WebCamWrapper()
+        public WebCamWrapper(string location)
         {
+            _storagePath = location;
             if (Directory.Exists(_storagePath) == false)
             {
                 Directory.CreateDirectory(_storagePath);
