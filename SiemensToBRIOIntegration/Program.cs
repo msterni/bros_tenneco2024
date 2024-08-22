@@ -1,6 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading;
 
 namespace SiemensToBRIOIntegration
 {
@@ -9,20 +7,10 @@ namespace SiemensToBRIOIntegration
         static ManualResetEvent manualResetEvent = new ManualResetEvent(false);
         static void Main(string[] args)
         {
-            var task1 = Task.Factory.StartNew(() => { MainThread(); });
-            Task.WaitAll(new[] { task1 });
-
-        }
-        private static void MainThread()
-        {
-            var counter = 0;
-            var plc = new PlcClient();
-            while (true)
-            {
-                Thread.Sleep(100);
-                plc.Run();
-                counter++;
-            }
+            var ip = "192.168.0.1"; //ConfigurationManager.AppSettings["ip"];
+            var sw = new SiemensWrapper(ip, 0, 1); // 192.168.0.1
+            new Core(sw, ip).Run();
+            manualResetEvent.WaitOne();
         }
     }
 }
