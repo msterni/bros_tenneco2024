@@ -16,13 +16,12 @@ namespace SiemensToBRIOIntegration
         {
             var ip = "192.168.0.1"; //ConfigurationManager.AppSettings["ip"];
             int dbNo = 57;
-            Console.WriteLine("asd");
             var connector = new PlcConnector(ip, dbNo);
             var processor = new ValuesProcessor();
             while (true)
             {
                 PlcData values = connector.ReadValues();
-                Console.WriteLine(values.LifeBitToCamera);
+                Console.WriteLine($"{values.LifeBitFromCamera}-{values.CameraStatus}-{values.LifeBitToCamera}-{values.CameraTrigger}-{values.FileName}");
                 values = processor.ProcessValues(values);
                 connector.WriteValues(values);
                 Thread.Sleep(1000);
