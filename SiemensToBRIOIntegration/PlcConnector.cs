@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AForge;
 using Sharp7;
 
 namespace SiemensToBRIOIntegration
@@ -38,6 +39,7 @@ namespace SiemensToBRIOIntegration
             {
                 Console.WriteLine("connection failed");
                 _connected = false;
+                throw new ConnectionFailedException("Can't connect to PLC");
             }
             else {
                 _connected = true;
@@ -55,9 +57,10 @@ namespace SiemensToBRIOIntegration
             data.LifeBitToCamera = S7.GetBitAt(readbuffer, 4, 0);
             data.CameraTrigger = S7.GetBitAt(readbuffer, 4, 1);
             data.FileName = S7.GetLRealAt(readbuffer, 6);
+            if (readResult !=0) Console.WriteLine($"read result = {readResult}");
             return data;
         }
-        public void WriteValues(PlcData data)
+        public bool WriteValues(PlcData data)
         {
             Connect();
             var writebuffer = new byte[14];
@@ -67,6 +70,8 @@ namespace SiemensToBRIOIntegration
             S7.SetBitAt(ref writebuffer, 4, 1, data.CameraTrigger);
             S7.SetLRealAt(writebuffer, 6, data.FileName);
             var writeresult = _client.DBWrite(_dbNo, 0, writebuffer.Length, writebuffer);
+            if (writeresult != 0) Console.WriteLine($"write result = {writeresult}");
+            return writeresult == 0;
         }
     }
 }

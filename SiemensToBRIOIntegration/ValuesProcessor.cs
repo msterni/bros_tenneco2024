@@ -16,10 +16,17 @@ namespace SiemensToBRIOIntegration
         public PlcData ProcessValues(PlcData plcData)
         {
             plcData.LifeBitFromCamera = !plcData.LifeBitFromCamera;
-            if (plcData.CameraTrigger && plcData.CameraStatus == 1)
+            if (plcData.CameraTrigger)
             {
-                _camera.ShootPhoto(DateTime.Now.ToString($"MM-dd-yyyy-h-mm-tt-{plcData.FileName.ToString()}"));
-                plcData.CameraStatus = 2;
+                try
+                {
+                    _camera.ShootPhoto(plcData.FileName.ToString());
+                    plcData.CameraStatus = 2;
+                }
+                catch (Exception e) {
+                    Console.WriteLine(e.ToString());
+                    plcData.CameraStatus = 4;
+                }
             }
             return plcData;
         }

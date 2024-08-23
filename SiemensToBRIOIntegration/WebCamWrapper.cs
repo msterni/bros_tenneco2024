@@ -48,7 +48,7 @@ namespace SiemensToBRIOIntegration
 
         public void ShootPhoto(string trayName)
         {
-            if (lastTrayName == trayName)
+            if (!writeToDisk && lastTrayName == trayName)
             {
                 _log.Debug($"Tray name {trayName} already used - ignoring");
                 return;
@@ -104,10 +104,12 @@ namespace SiemensToBRIOIntegration
         {
             if (writeToDisk)
             {
+                var time = DateTime.Now.ToString($"MM-dd-yyyy-h-mm-tt");
                 _queue.Add(new BitmapFile
                 {
                     Bitmap = new Bitmap(eventArgs.Frame),
-                    FileName = Path.Combine(_storagePath, $"{lastTrayName}_{uid++}.jpg") //$"c://Pictures/{lastTrayName}_{uid++}.jpg"
+                    FileName = Path.Combine(_storagePath, $"{time}-{lastTrayName}.jpg") //$"c://Pictures/{lastTrayName}_{uid++}.jpg"
+                    //FileName = Path.Combine(_storagePath, $"{lastTrayName}_{uid++}.jpg") //$"c://Pictures/{lastTrayName}_{uid++}.jpg"
                 });
                 writeToDisk = false;
                 PhotoShooted?.Invoke();

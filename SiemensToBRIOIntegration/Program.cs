@@ -1,7 +1,9 @@
-﻿using Sharp7;
+﻿using AForge;
+using Sharp7;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+
 
 namespace SiemensToBRIOIntegration
 {
@@ -20,11 +22,18 @@ namespace SiemensToBRIOIntegration
             var processor = new ValuesProcessor();
             while (true)
             {
-                PlcData values = connector.ReadValues();
-                Console.WriteLine($"{values.LifeBitFromCamera}-{values.CameraStatus}-{values.LifeBitToCamera}-{values.CameraTrigger}-{values.FileName}");
-                values = processor.ProcessValues(values);
-                connector.WriteValues(values);
-                Thread.Sleep(1000);
+                try
+                {
+                    PlcData values = connector.ReadValues();
+                    Console.WriteLine($"{values.LifeBitFromCamera}-{values.CameraStatus}-{values.LifeBitToCamera}-{values.CameraTrigger}-{values.FileName}");
+                    values = processor.ProcessValues(values);
+                    connector.WriteValues(values);
+                    Thread.Sleep(1000);
+                } catch (ConnectionFailedException)
+                {
+                    Console.WriteLine("Can't connect to plc");
+                    Thread.Sleep(10000);
+                }
             }
         }
     }
