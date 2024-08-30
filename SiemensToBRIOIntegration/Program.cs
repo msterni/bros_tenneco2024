@@ -33,7 +33,7 @@ namespace SiemensToBRIOIntegration
                 {
                     Console.WriteLine("Can't connect to plc");
                     Thread.Sleep(10000);
-                }
+                } catch (Exception ex) { Console.WriteLine(ex.ToString()); }
             }
         }
     }

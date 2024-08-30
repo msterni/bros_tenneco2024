@@ -57,7 +57,8 @@ namespace SiemensToBRIOIntegration
             data.LifeBitToCamera = S7.GetBitAt(readbuffer, 4, 0);
             data.CameraTrigger = S7.GetBitAt(readbuffer, 4, 1);
             data.FileName = S7.GetLRealAt(readbuffer, 6);
-            if (readResult !=0) Console.WriteLine($"read result = {readResult}");
+            if (readResult !=0)
+                Console.WriteLine($"Can't read from PLC: read result = {readResult}");
             return data;
         }
         public bool WriteValues(PlcData data)
@@ -70,7 +71,7 @@ namespace SiemensToBRIOIntegration
             S7.SetBitAt(ref writebuffer, 4, 1, data.CameraTrigger);
             S7.SetLRealAt(writebuffer, 6, data.FileName);
             var writeresult = _client.DBWrite(_dbNo, 0, writebuffer.Length, writebuffer);
-            if (writeresult != 0) Console.WriteLine($"write result = {writeresult}");
+            if (writeresult != 0) Console.WriteLine($"Can't write to PLC: write result = {writeresult}");
             return writeresult == 0;
         }
     }
