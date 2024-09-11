@@ -32,7 +32,7 @@ namespace SiemensToBRIOIntegration
                 } catch (ConnectionFailedException)
                 {
                     Console.WriteLine("Can't connect to plc");
-                    Thread.Sleep(10000);
+                    Thread.Sleep(5000);
                 } catch (Exception ex) { Console.WriteLine(ex.ToString()); }
             }
         }
