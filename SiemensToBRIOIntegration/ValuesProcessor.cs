@@ -18,6 +18,7 @@ namespace SiemensToBRIOIntegration
         {
             this.Initialize();
             plcData.LifeBitFromCamera = !plcData.LifeBitFromCamera;
+            if (plcData.CameraStatus == 2) plcData.CameraStatus = 1;
             if (plcData.CameraTrigger)
             {
                 try
@@ -34,6 +35,7 @@ namespace SiemensToBRIOIntegration
         }
         public void Initialize()
         {
+            this.ReadPath();
             if (!this._initialized) 
             {
                 try
@@ -47,6 +49,12 @@ namespace SiemensToBRIOIntegration
                 }
             }
 
+        }
+        private void ReadPath()
+        {
+            if (System.IO.File.Exists("config.json")){
+                return;
+            };
         }
     }
 }

@@ -25,7 +25,7 @@ namespace SiemensToBRIOIntegration
                 try
                 {
                     PlcData values = connector.ReadValues();
-                    Console.WriteLine($"{values.LifeBitFromCamera}-{values.CameraStatus}-{values.LifeBitToCamera}-{values.CameraTrigger}-{values.FileName}");
+                    Console.WriteLine($"CamLife:{values.LifeBitFromCamera} CamStatus:{values.CameraStatus} LifeBitToCam:{values.LifeBitToCamera} CamTrig{values.CameraTrigger} Filename:{values.FileName}");
                     values = processor.ProcessValues(values);
                     connector.WriteValues(values);
                     Thread.Sleep(1000);
