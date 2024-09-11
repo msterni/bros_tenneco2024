@@ -25,7 +25,7 @@ namespace SiemensToBRIOIntegration
                 try
                 {
                     PlcData values = connector.ReadValues();
-                    Console.WriteLine($"CamLife:{values.LifeBitFromCamera} CamStatus:{values.CameraStatus} LifeBitToCam:{values.LifeBitToCamera} CamTrig{values.CameraTrigger} Filename:{values.FileName}");
+                    PrintState(values);
                     values = processor.ProcessValues(values);
                     connector.WriteValues(values);
                     Thread.Sleep(1000);
@@ -35,6 +35,10 @@ namespace SiemensToBRIOIntegration
                     Thread.Sleep(5000);
                 } catch (Exception ex) { Console.WriteLine(ex.ToString()); }
             }
+        }
+        private static void PrintState(PlcData values)
+        {
+            Console.WriteLine($"CamLife:{values.LifeBitFromCamera}\tCamStatus:{values.CameraStatus}\tLifeBitToCam:{values.LifeBitToCamera}\tCamTrig{values.CameraTrigger}\tFilename:{values.FileName}");
         }
     }
 }
