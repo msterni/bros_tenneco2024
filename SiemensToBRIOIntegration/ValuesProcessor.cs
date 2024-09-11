@@ -58,31 +58,49 @@ namespace SiemensToBRIOIntegration
             }
 
         }
+        private void IncorrectConfigContentError()
+        {
+            var example = "---\r\npath: C:\\\\Pictures";
+            Console.WriteLine($"incorrect config.yaml content using default '{this._path}'. Example:\n\n{example}\n");
+        }
         private void ReadPath()
         {
             var defaultPath = "C:\\Pictures";
             this._path = defaultPath;
             var filepath = "config.yaml";
-            if (System.IO.File.Exists(filepath)){
+            if (System.IO.File.Exists(filepath))
+            {
                 using (var reader = new StreamReader(filepath))
                 {
                     // Load the stream
-                    IDeserializer deserializer = new DeserializerBuilder()
-                        .WithNamingConvention(CamelCaseNamingConvention.Instance)
-                        .Build();
-                    var loc = deserializer.Deserialize<Location>(reader);
-                    if (System.IO.Directory.Exists(loc.path))
+                    try
                     {
-                        this._path = loc.path;
+                        IDeserializer deserializer = new DeserializerBuilder()
+                            .WithNamingConvention(CamelCaseNamingConvention.Instance)
+                            .Build();
+                        var loc = deserializer.Deserialize<Location>(reader);
+                        if (loc == null)
+                        {
+                            IncorrectConfigContentError();
+                            return;
+                        }
+                        if (loc != null && System.IO.Directory.Exists(loc.path))
+                        {
+                            this._path = loc.path;
+                        }
+                        else
+                        {
+                            IncorrectConfigContentError();
+                        }
                     }
-                    else
+                    catch (YamlDotNet.Core.YamlException)
                     {
-                        Console.WriteLine($"Can't find given directory '{loc.path}' using default '{this._path}'");
+                        IncorrectConfigContentError();
                     }
                 }
             } else
             {
-                Console.WriteLine($"No config file using default path '{this._path}'");
+                Console.WriteLine($"No config file 'config.yaml'. using default path '{this._path}'");
             }
         }
     }
