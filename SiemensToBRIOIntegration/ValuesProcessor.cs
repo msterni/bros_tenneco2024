@@ -13,15 +13,11 @@ namespace SiemensToBRIOIntegration
     }
     internal class ValuesProcessor
     {
-        private string _lastLifeBit;
         private WebCamWrapper _camera;
-        private bool _initialized;
         private string _path;
-        private string _previousPath;
 
         public ValuesProcessor()
         {
-            this._initialized = false;
         }
         public PlcData ProcessValues(PlcData plcData)
         {
@@ -38,6 +34,7 @@ namespace SiemensToBRIOIntegration
                 catch (Exception e) {
                     Console.WriteLine(e.ToString());
                     plcData.CameraStatus = 4;
+                    this._camera = null;
                 }
             }
             return plcData;
@@ -45,14 +42,17 @@ namespace SiemensToBRIOIntegration
         public void Initialize()
         {
             this.ReadPath();
-            if (!this._initialized || this._previousPath != this._path) 
+            if (this._camera != null && this._camera.StoragePath != this._path)
+            {
+                this._camera.StoragePath = this._path;
+            }
+            if (this._camera == null)
             {
                 try
                 {
                     this._camera = new WebCamWrapper(this._path);
-                    this._initialized = true;
                 }
-                catch (Exception e)
+                catch (Exception)
                 {
                     Console.WriteLine("Can't initialize the Camera");
                 }

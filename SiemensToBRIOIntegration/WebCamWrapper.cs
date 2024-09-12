@@ -40,9 +40,8 @@ namespace SiemensToBRIOIntegration
     public class WebCamWrapper : IDisposable
     {
         public event Action PhotoShooted;
-        private int uid = 0;
         bool writeToDisk = false;
-        string lastTrayName = ""; // nie zrobi zapisu 2x dla takiej samej tacki
+        string lastTrayName = "";
         VideoCaptureDevice videoSource;
         private string _storagePath;
 
@@ -60,7 +59,7 @@ namespace SiemensToBRIOIntegration
             writeToDisk = true;
         }
 
-        public string Path { get { return _storagePath; } set { this._storagePath = value; } }
+        public string StoragePath { get { return _storagePath; } set { this._storagePath = value; } }
 
         public WebCamWrapper(string location)
         {
