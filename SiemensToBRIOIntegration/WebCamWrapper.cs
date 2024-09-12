@@ -48,23 +48,23 @@ namespace SiemensToBRIOIntegration
 
         public void ShootPhoto(string trayName)
         {
-            if (!writeToDisk && lastTrayName == trayName)
-            {
-                _log.Debug($"Tray name {trayName} already used - ignoring");
-                return;
-            }
+            if (!writeToDisk) { return; }
+            // below code prevents from taking picture with same trayName
+            //if (!writeToDisk && lastTrayName == trayName)
+            //{
+            //    _log.Debug($"Tray name {trayName} already used - ignoring");
+            //    return;
+            //}
             _log.Info($"Write to disk set for {trayName}");
             lastTrayName = trayName;
             writeToDisk = true;
         }
 
+        public string Path { get { return _storagePath; } set { this._storagePath = value; } }
+
         public WebCamWrapper(string location)
         {
             _storagePath = location;
-            if (Directory.Exists(_storagePath) == false)
-            {
-                Directory.CreateDirectory(_storagePath);
-            }
 
             _queue = new ObservableCollection<BitmapFile>();
             _queue.CollectionChanged += (x, y) =>
@@ -104,12 +104,12 @@ namespace SiemensToBRIOIntegration
         {
             if (writeToDisk)
             {
-                var time = DateTime.Now.ToString($"MM-dd-yyyy-h-mm-tt");
+                var time = DateTime.Now.ToString($"MM-dd-yyyy-h-mm-tt-ss");
+                if (!Directory.Exists(_storagePath)) { Directory.CreateDirectory(_storagePath); }
                 _queue.Add(new BitmapFile
                 {
                     Bitmap = new Bitmap(eventArgs.Frame),
                     FileName = Path.Combine(_storagePath, $"{time}-{lastTrayName}.jpg") //$"c://Pictures/{lastTrayName}_{uid++}.jpg"
-                    //FileName = Path.Combine(_storagePath, $"{lastTrayName}_{uid++}.jpg") //$"c://Pictures/{lastTrayName}_{uid++}.jpg"
                 });
                 writeToDisk = false;
                 PhotoShooted?.Invoke();

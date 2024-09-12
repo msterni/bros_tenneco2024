@@ -1,0 +1,8 @@
+C:\Users\tenneco_bc\Downloads\bin\Release\SiemensToBRIOIntegration.exe.config
+C:\Users\tenneco_bc\Downloads\bin\Release\SiemensToBRIOIntegration.exe
+C:\Users\tenneco_bc\Downloads\bin\Release\SiemensToBRIOIntegration.pdb
+C:\Users\tenneco_bc\Downloads\bros_tenneco2024\SiemensToBRIOIntegration\obj\Release\SiemensToBRIOIntegration.csproj.AssemblyReference.cache
+C:\Users\tenneco_bc\Downloads\bros_tenneco2024\SiemensToBRIOIntegration\obj\Release\SiemensToBRIOIntegration.csproj.CoreCompileInputs.cache
+C:\Users\tenneco_bc\Downloads\bros_tenneco2024\SiemensToBRIOIntegration\obj\Release\SiemensT.0A437379.Up2Date
+C:\Users\tenneco_bc\Downloads\bros_tenneco2024\SiemensToBRIOIntegration\obj\Release\SiemensToBRIOIntegration.exe
+C:\Users\tenneco_bc\Downloads\bros_tenneco2024\SiemensToBRIOIntegration\obj\Release\SiemensToBRIOIntegration.pdb

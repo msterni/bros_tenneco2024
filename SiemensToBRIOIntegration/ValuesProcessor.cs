@@ -17,6 +17,7 @@ namespace SiemensToBRIOIntegration
         private WebCamWrapper _camera;
         private bool _initialized;
         private string _path;
+        private string _previousPath;
 
         public ValuesProcessor()
         {
@@ -44,7 +45,7 @@ namespace SiemensToBRIOIntegration
         public void Initialize()
         {
             this.ReadPath();
-            if (!this._initialized) 
+            if (!this._initialized || this._previousPath != this._path) 
             {
                 try
                 {
